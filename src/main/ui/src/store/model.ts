@@ -1,6 +1,6 @@
 export interface MoistureReading {
 	value: number;
-	time: Date;
+	timestamp: Date;
 }
 
 export type MoistureData = MoistureReading[];
