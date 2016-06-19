@@ -3,8 +3,12 @@ export interface MoistureReading {
 	time: Date;
 }
 
-export interface MoistureState {
-	feeds: {
-		[feedId: string]: MoistureReading[];
-	}
+export type MoistureData = MoistureReading[];
+
+export type MoistureState = {
+	[feedId: string]: MoistureData
+};
+
+export interface GardenState {
+	moisture: MoistureState;
 }

@@ -1,0 +1,7 @@
+- [ ] Create Material theme
+- [ ] Change weather icon with real-time weather feed
+- [ ] Data Display
+- [ ] WebSocket service
+- [ ] Weather feed
+- [ ] Pictures of the Garden
+- [ ] Schematic of circuit

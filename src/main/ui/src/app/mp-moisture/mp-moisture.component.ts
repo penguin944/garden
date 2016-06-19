@@ -6,7 +6,7 @@ import { MD_INPUT_DIRECTIVES } from '@angular2-material/input';
 import { Store, State } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { MoistureReading, MoistureState } from '../../store/';
+import { MoistureReading, GardenState, MoistureState } from '../../store/';
 
 @Component({
 	moduleId: module.id,
@@ -37,10 +37,10 @@ export class MpMoistureComponent implements OnInit, OnDestroy {
 
 	public moisture: Observable<MoistureReading>;
 
-	constructor(private store: Store<State>) {
+	constructor(private store: Store<State<GardenState>>) {
 		this.moisture = store.select('moisture')
 			.map((state: MoistureState) => {
-				return state.feeds[this.feed];
+				return state[this.feed];
 			});
 	}
 
