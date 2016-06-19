@@ -1,42 +1,46 @@
 package com.pleimann.garden.service;
 
 import com.pleimann.garden.model.MoistureFeed;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
+import javax.inject.Inject;
 
-@RestController(APPLICATION_JSON_UTF8_VALUE)
+@RestController()
+@RequestMapping(path = "/api", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class MoistureService {
 	public static final String FEED_DATA_URI = "https://io.adafruit.com/api/feeds/{feed}/data";
-	private static final String AIO_KEY_HEADER = "X-AIO-Key";
+	public static final String AIO_KEY_HEADER = "X-AIO-Key";
 
-	@Value("${aioKey:AIO_KEY}")
+	@Value("${aio.key}")
 	private String aioKey;
 
-	private RestTemplate adafruitServiceTemplates;
+	@Inject
+	@Getter
+	@Setter
+	private RestTemplate adafruitServiceTemplate;
 
-	public MoistureService(RestTemplate restTemplate){
-		this.adafruitServiceTemplates = restTemplate;
-	}
-
-	@RequestMapping(value = "/moisture", method = RequestMethod.GET)
-	public HttpEntity<MoistureFeed> moistureFeed(@RequestParam(value="feed", defaultValue="garden-moisture-bed1") String feedId) {
+	@RequestMapping(value = "/feed/{feedName}", method = RequestMethod.GET)
+	public HttpEntity<MoistureFeed> moistureFeed(@PathVariable(value = "feedName") String feedName) {
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.add(AIO_KEY_HEADER, this.aioKey);
+//		requstHeaders.add();
 
 		HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
 
 		HttpEntity<MoistureFeed> response =
-			this.adafruitServiceTemplates.exchange(FEED_DATA_URI, HttpMethod.GET, requestEntity, MoistureFeed.class, feedId);
+			this.adafruitServiceTemplate.exchange(FEED_DATA_URI, HttpMethod.GET, requestEntity, MoistureFeed.class, feedName);
 
 		return response;
 	}
+
+	// Convert a predefined exception to an HTTP Status code
+	@ResponseStatus(value= HttpStatus.FORBIDDEN, reason="Adafruit.IO forbid the request")  // 403
+	@ExceptionHandler(HttpClientErrorException.class)
+	public void forbidden() { }
 }

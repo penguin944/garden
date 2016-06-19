@@ -3,10 +3,14 @@ export interface MoistureReading {
 	timestamp: Date;
 }
 
-export type MoistureData = MoistureReading[];
+export interface MoistureFeed {
+	id: number;
+	name: string;
+	readings: MoistureReading[];
+}
 
 export type MoistureState = {
-	[feedId: string]: MoistureData
+	[feedId: string]: MoistureFeed
 };
 
 export interface GardenState {

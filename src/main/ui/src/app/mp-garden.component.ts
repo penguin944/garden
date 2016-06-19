@@ -7,7 +7,7 @@ import { MD_LIST_DIRECTIVES } from '@angular2-material/list';
 import { MD_TOOLBAR_DIRECTIVES } from '@angular2-material/toolbar';
 import { ROUTER_DIRECTIVES } from '@ngrx/router';
 
-import { MpMoistureComponent } from './mp-moisture';
+import { MpMoistureComponent } from './mp-moisture/';
 
 interface View {
 	name: string;
@@ -18,27 +18,34 @@ interface View {
 @Component({
 	moduleId: module.id,
 	selector: 'garden-app',
-	directives: [ MD_CARD_DIRECTIVES, MD_BUTTON_DIRECTIVES, MD_LIST_DIRECTIVES, MD_ICON_DIRECTIVES, MD_TOOLBAR_DIRECTIVES, ROUTER_DIRECTIVES, MpMoistureComponent ],
+	directives: [
+		MD_CARD_DIRECTIVES,
+		MD_BUTTON_DIRECTIVES,
+		MD_LIST_DIRECTIVES,
+		MD_ICON_DIRECTIVES,
+		MD_TOOLBAR_DIRECTIVES,
+		ROUTER_DIRECTIVES,
+		MpMoistureComponent
+	],
 	pipes: [ UpperCasePipe ],
 	providers: [ MdIconRegistry ],
 	template: `
 <header>
 	<md-toolbar color="primary">
 		{{ title }}
-    	<span class="app-toolbar-filler"></span>
 		<md-nav-list>
-		 	<button md-button *ngFor="let view of views" [linkTo]="view.name">
+			<button md-button *ngFor="let view of views" [linkTo]="view.name">
 				<md-icon md-list-icon fontSet="fa" fontIcon="{{view.icon}}"></md-icon>
 				<span>{{view.name | upperCase}}</span>
 				<span>{{view.description}}</span>
-		 	</button>
+			</button>
 		</md-nav-list>
+		<span class="app-toolbar-filler"></span>
 	</md-toolbar>
 	<div class="app-content">
 		<route-view></route-view>
 	</div>
-</header>
-	`,
+</header>`,
 	styles: []
 })
 export class MpGardenAppComponent {
@@ -55,5 +62,5 @@ export class MpGardenAppComponent {
 			description: 'Soil moisture level of garden beds',
 			icon: 'fa-tint'
 		}
-	]
+	];
 }
