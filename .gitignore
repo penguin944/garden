@@ -20,3 +20,4 @@
 /typings
 .rake_tasks~
 .idea/workspace.xml
+.env
