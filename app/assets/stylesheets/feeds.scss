@@ -1,0 +1,35 @@
+table tr td {
+  padding: .25rem;
+}
+
+table tr th {
+  padding: .5rem;
+  min-width: 3rem;
+}
+
+thead {
+  text-align: center;
+  background: darkcyan;
+}
+
+.value-column {
+  text-align: right;
+}
+
+.updated_at-column {
+
+}
+
+.reading-line-odd {
+  background: #ffffff;
+}
+
+.reading-line-even {
+  background: #999999;
+}
+
+SECTION {
+  border: 1px solid darkcyan;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
