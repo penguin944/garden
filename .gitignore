@@ -6,6 +6,8 @@
 
 # Ignore bundler config.
 /.bundle
+/.rake_tasks~
+/.env
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
@@ -14,7 +16,10 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep
+/db/*
+!/db/.keep
 /tmp
 
 /node_modules
 /typings
+/.idea
