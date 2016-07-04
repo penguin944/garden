@@ -4,6 +4,7 @@
     'app': 'app',
     '@angular': '/assets/@angular',
     '@angular2-material': '/assets/@angular2-material',
+    'ng2-charts': '/assets/ng2-charts',
 
     'angular2-in-memory-web-api': '/assets/angular2-in-memory-web-api',
     'rxjs': 'assets/rxjs',
@@ -22,17 +23,11 @@
   var packages = {
     'app': { main: 'boot.js', defaultExtension: 'js' },
     'rxjs': { main: 'Rx.js', defaultExtension: 'js' },
+    'ng2-charts': { main: 'ng2-charts', defaultExtension: 'js' },
     'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
 
-    /* ngrx/router begin */
-    '@ngrx/core': { main: 'index' },
-    '@ngrx/router': { main: 'index' },
-    'path-to-regexp': { main: 'index' },
-    'isarray': { main: 'index' },
-    'query-string': { main: 'index' },
-    'strict-uri-encode': { main: 'index' },
-    'object-assign': { main: 'index' }
-    /* ngrx/router end */
+    '@ngrx/core': { main: 'index', defaultExtension: 'js' },
+    '@ngrx/store': { main: 'index', defaultExtension: 'js' },
   };
 
   var angularPackageNames = [
@@ -45,6 +40,22 @@
     'platform-browser-dynamic',
     'router',
   ];
+
+  // Individual files (~300 requests):
+  function packIndex(pkgName) {
+    packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };
+  }
+
+  // Bundled (~40 requests):
+  function packUmd(pkgName) {
+    packages['@angular/'+pkgName] = { main: '/bundles/' + pkgName + '.umd.js', defaultExtension: 'js' };
+  }
+  
+  // Most environments should use UMD; some (Karma) need the individual index files
+  var setPackageConfig = System.packageWithIndex ? packIndex : packUmd;
+
+  // Add package entries for angular packages
+  angularPackageNames.forEach(setPackageConfig);
 
   var materialPackageNames = [
     'core',
@@ -59,37 +70,9 @@
     'input',
   ];
 
-  // if called with a package name, add it to the packages obj
-  // if called only with a prefix return curried version
-
-  function packIndex(packagePrefix, packageName) {
-    if(packageName === undefined) {
-      return function(packageName) {
-        return packIndex(packagePrefix, packageName);
-      }
-
-    } else {
-      packages[ packagePrefix + '/' + packageName ] = { main: 'index.js', defaultExtension: 'js' };
-    }
-  }
-
-  function packUmd(packagePrefix, packageName) {
-    if(packageName === undefined) {
-      return function(packageName) {
-        return packUmd(packagePrefix, packageName);
-      }
-
-    } else {
-      packages[ packagePrefix + '/' + packageName ] = { main: 'bundles/' + packageName + '.umd.js', defaultExtension: 'js' };
-    }
-  }
-
-  // Most environments should use UMD; some (Karma) need the individual index files
-  var setPackageConfig = System.packageWithIndex ? packIndex : packUmd;
-
-  // Add package entries for angular packages
-  angularPackageNames.forEach(setPackageConfig('@angular'));
-  materialPackageNames.forEach(packIndex('@angular-material'));
+  materialPackageNames.forEach(function(pkg){
+      packages['@angular2-material/' + pkg] = { main: pkg + '.js', defaultExtension: 'js' };
+  });
 
   var config = {
     map: map,
