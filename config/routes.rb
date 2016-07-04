@@ -7,5 +7,5 @@ Rails.application.routes.draw do
   match 'api' => 'application#invalid_api_path', defaults: { :format => :json }, via: [ :all ]
   match 'api/*path' => 'application#invalid_api_path', defaults: { :format => :json }, via: [ :all ]
 
-  match '/*path' => redirect('/'), via: [ :all ]
+  # match '/*path' => redirect('/'), via: [ :all ]
 end
