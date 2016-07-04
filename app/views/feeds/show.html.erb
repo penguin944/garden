@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @feed.name %>
+</p>
+
+<section>
+  <strong>Readings:</strong>
+  <table>
+    <thead><tr><th>Value</th><th>Timestamp</th></tr></thead>
+    <% @feed.readings.each do |reading| %>
+      <tr class="<%= cycle('reading-line-odd', 'reading-line-even') %>">
+        <td class="value-column"><%= reading.value %>%</td>
+        <td class="updated_at-column"><%= reading.updated_at %></td>
+      </tr>
+    <% end %>
+  </table>
+</section>
+
+<section>
+  <strong>Add a Reading:</strong>
+  <%= form_for([@feed, @feed.readings.build]) do |f| %>
+    <p>
+      <%= f.label :value %>
+      <%= f.text_field :value %>%
+    </p>
+
+    <p>
+      <%= f.label :updated_at %>
+      <%= f.datetime_select :updated_at %>
+    </p>
+
+    <p><%= f.submit %> </p>
+  <% end %>
+</section>
+
+<%= link_to 'Edit', edit_feed_path(@feed) %> |
+<%= link_to 'Back', feeds_path %>
