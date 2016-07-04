@@ -18,3 +18,5 @@
 
 /node_modules
 /typings
+.rake_tasks~
+.idea/workspace.xml
