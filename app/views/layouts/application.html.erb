@@ -6,7 +6,10 @@
   <title><%= yield(:title) %></title>
 
   <%= stylesheet_link_tag 'application', media: 'all' %>
+
+
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <%= csrf_meta_tags %>
 </head>
@@ -15,6 +18,8 @@
   <%= yield %>
 
   <mp-garden>Loading...</mp-garden>
+
+  <%= javascript_include_tag '/assets/chart.js/dist/Chart.bundle.min' %>
 
   <!-- 1. Include Angular static dependencies -->
   <%= javascript_include_tag '/assets/core-js/client/shim.min' %>
