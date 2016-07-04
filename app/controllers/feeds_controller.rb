@@ -35,27 +35,27 @@ class FeedsController < ApplicationController
       aio = Adafruit::IO::Client.new key: ENV['ADAFRUIT_IO_API_KEY']
 
       aio_feed = aio.feeds.retrieve(name)
+      aio_feed_data = aio.feeds(name).data.retrieve
 
-      aio_feed_data = aio.feeds(name).data.receive
-      puts aio_feed_data.inspect
+      unless aio_feed_data.nil?
+        feed_readings = aio_feed_data.map do |aio_data|
+          Reading.new({
+              id: aio_data.id,
+              feed_id: aio_data.feed_id,
+              value: aio_data.value,
+              created_at: aio_data.created_at,
+          })
+        end
 
-      aio_feed_readings = aio_feed_data.map do |aio_data|
-        Reading.new({
-            id: aio_data.id,
-            feed_id: aio_data.feed_id,
-            value: aio_data.value,
-            created_at: aio_data.created_at,
+        feed_readings.sort! { |reading1, reading2| reading1.created_at <=> reading2.created_at }
+
+        Feed.new ({
+            id: aio_feed.id,
+            name: aio_feed.name,
+            last_value: aio_feed.last_value,
+            readings: feed_readings
         })
       end
-
-      aio_feed_readings.sort! { |reading1, reading2| reading1.created_at <=> reading2.created_at }
-
-      Feed.new ({
-          id: aio_feed.id,
-          name: aio_feed.name,
-          last_value: aio_feed_readings.last.value,
-          readings: aio_feed_readings
-      })
     end
   end
 end
