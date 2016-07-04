@@ -5,18 +5,8 @@ class FeedsController < ApplicationController
 
   # GET /api/feeds
   def index
-    aio = Adafruit::IO::Client.new key: ENV['ADAFRUIT_IO_API_KEY']
-
-    aio_feeds = aio.feeds.retrieve
-
-    #get all aio feeds and map them to Feed model
-    unless aio_feeds.nil?
-      @feeds = aio_feeds.map do |aio_feed|
-        Feed.new id: aio_feed.id, name: aio_feed.name
-      end
-
-      @feeds.sort! { |feed1, feed2| feed1.name <=> feed2.name }
-    end
+    #get aio feeds array and map to Feed model
+    @feeds = get_feeds
 
     render json: @feeds
   end
@@ -24,12 +14,30 @@ class FeedsController < ApplicationController
   # GET /api/feeds/:name
   def details
     #get aio feed for param :name and map to Feed model
-    @feed = get_feed(params[:name])
+    @feed = get_feed params[:name]
 
     render json: @feed
   end
 
   private
+  def get_feeds
+    aio = Adafruit::IO::Client.new key: ENV['ADAFRUIT_IO_API_KEY']
+    aio_feeds = aio.feeds.retrieve
+
+    #get all aio feeds and map them to Feed model
+    unless aio_feeds.nil?
+      aio_feeds.sort! { |feed1, feed2| feed1.name <=> feed2.name }
+
+      aio_feeds.map do |aio_feed|
+        Feed.new({
+          id: aio_feed.id,
+          name: aio_feed.name,
+          last_value: aio_feed.last_value
+        })
+      end
+    end
+  end
+
   def get_feed (name)
     unless name.nil?
       aio = Adafruit::IO::Client.new key: ENV['ADAFRUIT_IO_API_KEY']
