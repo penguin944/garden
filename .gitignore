@@ -23,3 +23,9 @@
 /node_modules
 /typings
 /.idea
+/.npm-debug.log
+
+# Client-side generated files
+/client/src/app/**/*.js
+/client/src/app/**/*.css
+/public/**/*.js

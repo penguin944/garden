@@ -1,0 +1,14 @@
+<md-toolbar [color]="toolbarColor">
+  <h1>Garden Dashboard</h1>
+  <button md-icon-button color="primary">
+    <md-icon>more_vert</md-icon>
+  </button>
+</md-toolbar>
+
+<md-tab-group (selectChange)="selectTab($event)">
+  <md-tab *ngFor="let page of pages | async">
+    <template md-tab-label>{{ page.name | uppercase }}</template>
+  </md-tab>
+</md-tab-group>
+
+<router-outlet></router-outlet>

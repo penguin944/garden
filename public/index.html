@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>PleimannGarden</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/ng2-material/ng2-material.css">
+  <link rel="stylesheet" href="/assets/ng2-material/font/font.css">
+
+  <link href="main.css" rel="stylesheet">
+</head>
+<body>
+  <app-root>Loading...</app-root>
+
+  <script src="/assets/core-js/client/shim.min.js"></script>
+  <script src="/assets/chart.js/dist/Chart.bundle.min.js"></script>
+
+  <!-- 1. Include Angular static dependencies -->
+  <script src="/assets/core-js/client/shim.min.js"></script>
+  <script src="/assets/zone.js/dist/zone.js"></script>
+  <script src="/assets/reflect-metadata/Reflect.js"></script>
+  <script src="/assets/systemjs/dist/system.src.js"></script>
+
+  <!-- 2. Configure SystemJS -->
+  <script>
+    System.import('system-config.js').then(function () {
+      System.import('main');
+    }).catch(console.error.bind(console));
+  </script>
+</body>
+</html>

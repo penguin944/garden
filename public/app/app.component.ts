@@ -1,75 +1,66 @@
-import { Component } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router';
-import { COMMON_DIRECTIVES, COMMON_PIPES, UpperCasePipe } from "@angular/common";
+import { Component, ViewEncapsulation } from '@angular/core';
+import { NgFor, UpperCasePipe, AsyncPipe } from '@angular/common';
+import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/first';
+
+import { MD_TOOLBAR_DIRECTIVES } from '@angular2-material/toolbar';
 import { MD_BUTTON_DIRECTIVES } from '@angular2-material/button';
-import { MD_SIDENAV_DIRECTIVES } from '@angular2-material/sidenav';
+import { MD_TABS_DIRECTIVES, MdTabChangeEvent } from '@angular2-material/tabs';
 import { MD_ICON_DIRECTIVES, MdIconRegistry } from '@angular2-material/icon';
 
-import { FeedListComponent } from './feeds/feed-list.component';
-import { FeedDetailComponent } from './feeds/feed-detail.component';
+import './about/about.component';
+import './data/data.component';
+import './home/home.component';
+import './moisture-chart/moisture-chart.component';
+import './weather/weather.component';
 
-import { Alert, AlertsService } from './alerts.service';
-
-interface View {
+interface Page {
   name: string;
-  description: string;
-  icon: string;
+  link: string;
+  disabled?: boolean;
 }
 
 @Component({
-  selector: 'mp-garden',
-  template: `
-<header>
-	<md-toolbar [color]="'accent'">
-	  <md-toolbar-row>{{ title }}</md-toolbar-row>
-	  
-	  <md-toolbar-row>
-      <md-nav-list>
-        <button md-button *ngFor="let view of views" [routerLink]="[ view.name ]">
-          <md-icon md-list-icon fontIcon="{{ view.icon }}"></md-icon>
-          <span>{{ view.name | uppercase }}</span>
-          <span>{{ view.description }}</span>
-        </button>
-      </md-nav-list>
-		</md-toolbar-row>
-		
-		<span class="app-toolbar-filler"></span>
-	</md-toolbar>
-	<div class="app-content">
-    <section>
-      <div class="alert" *ngFor="let alert of alerts">
-        {{ alert.message }}
-      </div>    
-    </section>
-
-		<router-outlet></router-outlet>
-	</div>
-</header>
-`,
-  pipes: [ COMMON_PIPES, UpperCasePipe ],
-  directives: [ ROUTER_DIRECTIVES, COMMON_DIRECTIVES, MD_ICON_DIRECTIVES, MD_SIDENAV_DIRECTIVES, MD_BUTTON_DIRECTIVES ],
+  selector: 'app-root',
+  templateUrl: 'app/app.component.html',
+  styleUrls: [ 'app/app.component.css' ],
+  directives: [
+    NgFor,
+    ROUTER_DIRECTIVES,
+    MD_BUTTON_DIRECTIVES,
+    MD_TOOLBAR_DIRECTIVES,
+    MD_ICON_DIRECTIVES,
+    MD_BUTTON_DIRECTIVES,
+    MD_TABS_DIRECTIVES
+  ],
   providers: [ MdIconRegistry ],
-  precompile: [ FeedListComponent, FeedDetailComponent ] // required for @angular/router
+  pipes: [ UpperCasePipe, AsyncPipe ],
+  encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
-  public alerts: Array<Alert> = [];
-  public title: string = "Pleimann - Garden Dashboard";
-
-  public views: View[] = [
+  private toolbarColor: string = 'primary';
+  private pages: Observable<Page[]> = Observable.of([
     {
-      name: 'feeds',
-      description: 'Current weather in St. Louis',
-      icon: 'receipt'
-    },
-    // {
-    //   name: 'moisture',
-    //   description: 'Soil moisture level of garden beds',
-    //   icon: 'fa-tint'
-    // }
-  ];
+      name: 'HOME',
+      link: '/home'
+    }, {
+      name: 'DATA',
+      link: '/data'
+    }, {
+      name: 'WEATHER',
+      link: '/weather'
+    }, {
+      name: 'ABOUT',
+      link: '/about'
+    }
+  ]);
 
-  constructor(alertsService: AlertsService) {
-    alertsService.alerts.subscribe((alert: Alert) => this.alerts.push(alert));
+  constructor(private router: Router) { }
+
+  public selectTab(event: MdTabChangeEvent) {
+    this.pages.map((pages: Page[]) => pages.filter((pages, index) => index === event.index)[0])
+      .subscribe((page: Page) => this.router.navigateByUrl(page.link));
   }
 }

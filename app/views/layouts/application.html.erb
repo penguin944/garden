@@ -28,10 +28,11 @@
   <%= javascript_include_tag '/assets/systemjs/dist/system.src' %>
 
   <!-- 2. Configure SystemJS -->
-  <%= javascript_include_tag '/app/system.config' %>
+  <%= javascript_include_tag '/assets/javascripts/system.config' %>
+  <!--<script type="text/javascript" src="/javascripts/system.config.js"></script>-->
 
   <script>
-    System.import('app');
+    System.import('main');
   </script>
 </body>
 </html>

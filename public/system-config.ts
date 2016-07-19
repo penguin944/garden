@@ -1,0 +1,56 @@
+// SystemJS configuration file, see links for more information
+// https://github.com/systemjs/systemjs
+// https://github.com/systemjs/systemjs/blob/master/docs/config-api.md
+
+/***********************************************************************************************
+ * User Configuration.
+ **********************************************************************************************/
+/** Map relative paths to URLs. */
+const map:any = {
+    '@angular': '/assets/@angular',
+    'rxjs': '/assets/rxjs',
+
+    '@angular2-material': '/assets/@angular2-material',
+    'ng2-material': '/assets/ng2-material',
+};
+
+/** User packages configuration. */
+const packages:any = {
+    // Angular specific barrels.
+    '@angular/core': { main: 'index' },
+    '@angular/common': { main: 'index' },
+    '@angular/compiler': { main: 'index' },
+    '@angular/forms': { main: 'index' },
+    '@angular/http': { main: 'index' },
+    '@angular/router': { main: 'index' },
+    '@angular/platform-browser': { main: 'index' },
+    '@angular/platform-browser-dynamic': { main: 'index' },
+
+    // Thirdparty barrels.
+    'rxjs': { main: 'index' },
+
+    'ng2-material': { main: 'index' },
+};
+
+/** Material packages configuration. */
+[
+    'core', 'button', 'card', 'checkbox', 'core',
+    'grid-list', 'icon', 'input', 'list', 'menu',
+    'progress-circle', 'radio', 'sidenav', 'slide-toggle',
+    'tabs', 'toolbar'
+
+].forEach(packageName => {
+    packages[ `@angular2-material/${packageName}` ] = {
+        format: 'cjs',
+        defaultExtension: 'js',
+        main: packageName
+    };
+});
+
+/** Type declaration for ambient System. */
+declare var System:any;
+
+System.config({ defaultJSExtensions: true });
+
+// Apply the user's configuration.
+System.config({ map, packages });
