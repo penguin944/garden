@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.3.0'
+ruby '2.2.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
@@ -27,11 +27,19 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  # Include Time zone info so that project will run on Windows
+  # https://github.com/tzinfo/tzinfo/wiki/Resolving-TZInfo::DataSourceNotFound-Errors
+  gem 'tzinfo-data'
 end
 
-# 12factor for Heroku deployment
-gem 'rails_12factor', group: :production
+group :production do
+  # 12factor for Heroku deployment
+  gem 'rails_12factor'
+end
 
 gem 'adafruit-io'
-gem 'sprockets'
+gem 'webpack-rails'
+gem 'foreman'
 gem 'rack-cors'
+get 'compass'

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'welcome#index'
+  root 'static_pages#index'
 
   get 'api/feeds' => 'feeds#index', defaults: { :format => :json }
   get 'api/feeds/:name' => 'feeds#details', defaults: { :format => :json }
@@ -7,5 +7,5 @@ Rails.application.routes.draw do
   match 'api' => 'application#invalid_api_path', defaults: { :format => :json }, via: [ :all ]
   match 'api/*path' => 'application#invalid_api_path', defaults: { :format => :json }, via: [ :all ]
 
-  match '/*path' => redirect('/'), via: [ :all ]
+  # match '/*path' => redirect('/'), via: [ :all ]
 end

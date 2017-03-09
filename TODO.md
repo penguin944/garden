@@ -1,7 +1,9 @@
-- [ ] Create Material theme
-- [ ] Change weather icon with real-time weather feed
+
+- [X] Fix MoistureService
+- [X] Create Material theme
 - [ ] Data Display
-- [ ] WebSocket service
-- [ ] Weather feed
-- [ ] Pictures of the Garden
-- [ ] Schematic of circuit
+- [ ] Change menu's weather icon with real-time weather feed
+- [ ] Data - WebSocket service
+- [ ] Weather - Forecast
+- [ ] About - Pictures of the Garden
+- [ ] About - Schematic of circuit

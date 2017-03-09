@@ -37,11 +37,6 @@ out.log
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
-# Ignore bundler config.
-/.bundle
-/.rake_tasks~
-/.env
-
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
@@ -52,6 +47,12 @@ out.log
 /db/*
 !/db/.keep
 /tmp
+
 src/main/ui/src/api/
 target/generated-sources/
 target/generated-test-sources/
+
+# Client-side generated files
+/client/src/app/**/*.js
+/client/src/app/**/*.css
+/public/**/*.js

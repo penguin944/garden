@@ -1,4 +1,4 @@
-class Reading
+raclass Reading
   include ActiveModel::Model
 
   attr_accessor :id, :feed_id, :value, :created_at

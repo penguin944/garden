@@ -1,0 +1,2 @@
+backend: bundle exec rails server -p $PORT
+frontend: cd client && ng serve --port 4200 --proxy http://localhost:$PORT
