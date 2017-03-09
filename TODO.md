@@ -1,3 +1,4 @@
+
 - [X] Fix MoistureService
 - [X] Create Material theme
 - [ ] Data Display
@@ -6,6 +7,3 @@
 - [ ] Weather - Forecast
 - [ ] About - Pictures of the Garden
 - [ ] About - Schematic of circuit
-
-- [ ] Convert to Webpack
-- [ ] Tighter integration with Rails https://github.com/nishio-dens/angular2-rails-example
